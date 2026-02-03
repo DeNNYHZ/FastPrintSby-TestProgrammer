@@ -1,0 +1,63 @@
+{% extends "produk/base.html" %}
+{% block title %}Daftar Produk{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white py-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <h5 class="mb-0">Produk</h5>
+            <div class="d-flex gap-2">
+                <a href="{% url 'sync_produk' %}" class="btn btn-light btn-sm">Sync dari API</a>
+                <a href="{% url 'tambah_produk' %}" class="btn btn-success btn-sm">Tambah Produk</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show py-2" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if produk %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama Produk</th>
+                            <th class="col-harga">Harga</th>
+                            <th>Kategori</th>
+                            <th>Status</th>
+                            <th class="text-end" style="width: 140px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in produk %}
+                            <tr>
+                                <td class="text-muted">{{ p.id_produk }}</td>
+                                <td>{{ p.nama_produk }}</td>
+                                <td class="col-harga">Rp {{ p.harga_display }}</td>
+                                <td>{{ p.kategori.nama_kategori }}</td>
+                                <td><span class="badge bg-success">{{ p.status.nama_status }}</span></td>
+                                <td class="text-end btn-group-actions">
+                                    <a href="{% url 'edit_produk' p.id_produk %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="{% url 'hapus_produk' p.id_produk %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Hapus produk &quot;{{ p.nama_produk }}&quot;?');"> Hapus </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <p class="text-muted mb-3">Belum ada produk dengan status bisa dijual.</p>
+                <a href="{% url 'sync_produk' %}" class="btn btn-primary">Sync dari API</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
