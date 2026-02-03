@@ -19,7 +19,6 @@ Aplikasi ini dibuat untuk memenuhi requirement tes programmer dari Fast Print. A
 - **Framework**: Django 6.0.1
 - **Database**: PostgreSQL
 - **Python**: 3.13
-- **Django REST Framework**: Untuk serializer
 - **Bootstrap 5**: Untuk UI
 
 ### Install Dependencies
